@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 import './WeatherWidget.css'
 
 function WeatherWidget() {
     const [weather, setWeather] = useState(null)
+    const [location, setLocation] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -35,6 +37,25 @@ function WeatherWidget() {
         return 'Unknown'
     }
 
+    async function fetchLocationName(latitude, longitude) {
+        try {
+            // Using BigDataCloud Reverse Geocoding API (free, no API key required)
+            const response = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+            )
+
+            if (response.ok) {
+                const data = await response.json()
+                // Try to get city name, fallback to locality or country
+                const cityName = data.city || data.locality || data.principalSubdivision || data.countryName
+                setLocation(cityName)
+            }
+        } catch (err) {
+            // Silently fail - location name is optional
+            console.log('Could not fetch location name')
+        }
+    }
+
     async function fetchWeather(latitude, longitude) {
         try {
             const response = await fetch(
@@ -52,6 +73,10 @@ function WeatherWidget() {
                 weatherCode: data.current_weather.weathercode,
                 windSpeed: data.current_weather.windspeed
             })
+
+            // Fetch location name
+            fetchLocationName(latitude, longitude)
+
             setLoading(false)
         } catch (err) {
             setError('Weather unavailable')
@@ -131,6 +156,12 @@ function WeatherWidget() {
                         {getWeatherDescription(weather.weatherCode)}
                     </div>
                 </div>
+                {location && (
+                    <div className="weather-location">
+                        <FaMapMarkerAlt className="weather-location-icon" />
+                        <span>{location}</span>
+                    </div>
+                )}
             </div>
         </div>
     )
