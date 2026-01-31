@@ -1,0 +1,114 @@
+.weather-widget {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    min-width: auto;
+}
+
+.weather-loading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--font-size-xs);
+}
+
+.weather-loading-spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(74, 222, 128, 0.3);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.weather-error {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.weather-error-icon {
+    font-size: 14px;
+}
+
+.weather-error-text {
+    font-size: var(--font-size-xs);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.weather-retry {
+    padding: 2px var(--spacing-sm);
+    background: var(--color-accent);
+    color: #1A1A1A;
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: none;
+}
+
+.weather-retry:hover {
+    background: var(--color-accent-hover);
+}
+
+.weather-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.weather-icon {
+    font-size: 20px;
+}
+
+.weather-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.weather-temp {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1;
+}
+
+.weather-desc {
+    font-size: var(--font-size-xs);
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: capitalize;
+}
+
+.weather-location {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+}
+
+.weather-location-icon {
+    font-size: 10px;
+}
+
+/* Hide location text on compact view */
+@media (max-width: 576px) {
+
+    .weather-location,
+    .weather-desc {
+        display: none;
+    }
+}
